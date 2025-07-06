@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fire Tournament</title>
+    <!-- Google Fonts: Inter for general text, Poppins for headings -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS CDN for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to complement Tailwind and provide specific overrides */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #f0f2f5; /* Lighter background for a modern feel */
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #1a202c; /* Darker, more professional header */
+            color: #ffffff;
+            padding: 1.25rem 1.5rem; /* Increased padding */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-bottom: 3px solid #667eea; /* Accent border */
+        }
+        header h1 {
+            font-family: 'Poppins', sans-serif; /* Poppins for headings */
+            margin: 0;
+            font-size: 1.875rem; /* Larger heading */
+            letter-spacing: -0.025em; /* Slightly tighter letter spacing */
+        }
+        header button {
+            background-color: #667eea; /* Primary accent color */
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.25rem;
+            border-radius: 0.5rem; /* More rounded corners */
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease; /* Smooth transition for hover effects */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header button:hover {
+            background-color: #5a67d8; /* Darker shade on hover */
+            transform: translateY(-1px); /* Slight lift effect */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Container for page content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 0.75rem; /* Rounded corners for containers */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08); /* Softer, deeper shadow */
+            border: 1px solid #e2e8f0; /* Subtle border */
+        }
+
+        /* Section Headers */
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: #2d3748; /* Darker text for headings */
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #edf2f7; /* Lighter, subtle border */
+            padding-bottom: 0.75rem;
+            font-size: 1.5rem; /* Slightly larger section titles */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* Space between icon and text */
+        }
+        h2 svg {
+            color: #667eea; /* Icon color */
+        }
+
+        /* Form Grid Layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted min-width */
+            gap: 1.25rem; /* Increased gap */
+            margin-bottom: 1.5rem;
+        }
+
+        /* Input Field Styles */
+        input {
+            padding: 0.8rem 1rem; /* Adjusted padding */
+            border: 1px solid #cbd5e0; /* Lighter border */
+            border-radius: 0.5rem;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #4a5568; /* Darker text color */
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea; /* Primary accent color on focus */
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3); /* Softer focus shadow */
+            background-color: #f7fafc; /* Light background on focus */
+        }
+
+        /* Button Styles */
+        .action-btn {
+            background-color: #667eea;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1.1rem; /* Slightly larger font */
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .action-btn:hover {
+            background-color: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .action-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: separate; /* Use separate for rounded corners on cells */
+            border-spacing: 0; /* Remove default spacing */
+            margin-top: 1.5rem;
+            border-radius: 0.5rem; /* Rounded corners for the entire table */
+            overflow: hidden; /* Hide overflow for rounded corners */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 1rem 1.25rem; /* Increased padding */
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0; /* Lighter border */
+            color: #4a5568; /* Darker text color */
+        }
+        th {
+            background-color: #edf2f7; /* Lighter header background */
+            font-weight: 700; /* Bolder headers */
+            text-transform: uppercase;
+            font-size: 0.8rem; /* Slightly smaller font for headers */
+            color: #2d3748;
+        }
+        /* Style for the first and last th for rounded corners */
+        th:first-child { border-top-left-radius: 0.5rem; }
+        th:last-child { border-top-right-radius: 0.5rem; }
+
+        tr:hover {
+            background-color: #f7fafc; /* Very light hover effect */
+        }
+        /* Remove bottom border for last row */
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Action buttons within tables */
+        .table-btn {
+            color: #fff;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.375rem; /* Slightly smaller rounded corners */
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            margin-right: 0.5rem; /* Space between buttons */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .table-btn:last-child {
+            margin-right: 0;
+        }
+
+        .edit-btn { background-color: #48bb78; } /* Green */
+        .delete-btn { background-color: #ef4444; } /* Red */
+        .match-btn { background-color: #667eea; } /* Primary accent */
+
+        .edit-btn:hover { background-color: #38a169; transform: translateY(-1px); }
+        .delete-btn:hover { background-color: #dc2626; transform: translateY(-1px); }
+        .match-btn:hover { background-color: #5a67d8; transform: translateY(-1px); }
+
+        /* Leaderboard Medal Style */
+        .medal {
+            font-size: 1.5rem; /* Larger medals */
+            text-align: center;
+            vertical-align: middle; /* Align vertically */
+        }
+
+        /* Login Page Specific Styles */
+        #loginPage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2d3748, #4a5568); /* Darker, professional gradient */
+        }
+        .login-box {
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25); /* Deeper shadow */
+            width: 100%;
+            max-width: 450px; /* Slightly wider login box */
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .login-box h2 {
+            font-family: 'Poppins', sans-serif;
+            color: #2d3748;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 2rem; /* Larger login heading */
+            border-bottom: none; /* No border for login heading */
+        }
+        .login-box input {
+            margin-bottom: 1.25rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        #loginError {
+            color: #ef4444;
+            margin-top: 1rem;
+            height: 1.5rem; /* Ensure consistent height */
+            font-weight: 500;
+        }
+
+        /* Utility for hiding pages */
+        .hidden-page {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            h2 {
+                font-size: 1.25rem;
+            }
+            .form-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
+            }
+            th, td {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            .table-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.75rem;
+            }
+            .login-box {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+    <!-- Phosphor Icons for modern icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+</head>
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="flex items-center justify-center min-h-screen bg-gray-800">
+        <div class="login-box">
+            <h2 class="text-gray-800 font-bold mb-6">Admin Login</h2>
+            <input type="password" id="password" placeholder="Enter Admin Password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center">
+            <button class="action-btn w-full mt-4" onclick="login()">Login</button>
+            <p id="loginError" class="text-red-500 mt-4 h-6"></p>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL PAGE -->
+    <div id="adminPage" class="hidden-page">
+        <header>
+            <h1>Admin Panel - Free Fire Tournament</h1>
+            <button onclick="logout()">Logout</button>
+        </header>
+
+        <div class="container">
+            <h2><i class="ph ph-target-arrow"></i> Add / Edit Player</h2>
+            <div class="form-grid">
+                <input type="hidden" id="editIndex">
+                <input type="text" id="name" placeholder="Name" class="input-field">
+                <input type="text" id="playerId" placeholder="Player ID" class="input-field">
+                <input type="text" id="mobile" placeholder="Mobile Number" class="input-field">
+                <input type="email" id="email" placeholder="Email" class="input-field">
+                <input type="text" id="gameUid" placeholder="Game UID" class="input-field">
+                <input type="text" id="teamName" placeholder="Team Name" class="input-field">
+                <input type="number" id="matchesJoined" placeholder="Matches Joined" class="input-field">
+                <input type="number" id="kills" placeholder="Kills" class="input-field">
+                <input type="number" id="wins" placeholder="Wins" class="input-field">
+            </div>
+            <button class="action-btn" onclick="savePlayer()">Save Player</button>
+
+            <h2><i class="ph ph-users"></i> All Players</h2>
+            <div style="overflow-x:auto;">
+                <table id="playersTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th><th>Player ID</th><th>Mobile</th><th>Email</th>
+                            <th>Game UID</th><th>Team</th><th>Matches</th><th>Kills</th><th>Wins</th><th>Added On</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <h2><i class="ph ph-trophy"></i> Leaderboard</h2>
+             <div style="overflow-x:auto;">
+                <table id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th><th>Name</th><th>Team</th><th>Matches</th>
+                            <th>Kills</th><th>Wins</th><th>Points</th><th>Added On</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody"></tbody>
+                </table>
+            </div>
+
+            <h2><i class="ph ph-calendar-blank"></i> Matches Management</h2>
+            <div class="form-grid">
+                <input type="text" id="matchName" placeholder="Match Name" class="input-field">
+                <input type="text" id="scheduledDate" placeholder="Scheduled Date/Time (e.g. 25 July 6PM)" class="input-field">
+                <button class="action-btn" onclick="addMatch()">Add Match</button>
+            </div>
+             <div style="overflow-x:auto;">
+                <table id="matchesTable">
+                    <thead>
+                        <tr><th>Match Name</th><th>Created On</th><th>Scheduled For</th><th>Players</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MATCH DETAILS PAGE -->
+    <div id="matchPage" class="hidden-page">
+        <header>
+            <h1 id="matchTitle">Match Details</h1>
+            <button onclick="showPage('admin')">Back to Admin</button>
+        </header>
+
+        <div class="container">
+            <h2><i class="ph ph-user-plus"></i> Add Player to Match</h2>
+            <div class="form-grid">
+                <input type="text" id="matchPlayerName" placeholder="Player Name" class="input-field">
+                <input type="text" id="matchGameUid" placeholder="Game UID" class="input-field">
+                <input type="text" id="matchMobile" placeholder="Mobile Number" class="input-field">
+                <input type="text" id="matchGameName" placeholder="Game Name" class="input-field">
+                <input type="number" id="matchKills" placeholder="Kills" class="input-field">
+            </div>
+            <button class="action-btn" onclick="addPlayerToMatch()">Add Player</button>
+
+            <h2><i class="ph ph-users-three"></i> Players in this Match</h2>
+             <div style="overflow-x:auto;">
+                <table id="matchPlayersTable">
+                    <thead>
+                        <tr>
+                            <th>Player Name</th><th>Game UID</th><th>Mobile Number</th>
+                            <th>Game Name</th><th>Kills</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal for Alerts/Confirmations -->
+    <div id="customModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
+            <h3 id="modalTitle" class="text-xl font-bold text-gray-800 mb-4"></h3>
+            <p id="modalMessage" class="text-gray-600 mb-6"></p>
+            <div id="modalButtons" class="flex justify-center space-x-4">
+                <!-- Buttons will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- GLOBAL STATE AND NAVIGATION ---
+        let players = [];
+        let matches = [];
+        let currentMatchId = null;
+        const ADMIN_PASSWORD = "HGbattleZonearadhya";
+
+        // Function to show custom modal instead of alert/confirm
+        function showCustomModal(title, message, type = 'alert', onConfirm = null) {
+            const modal = document.getElementById('customModal');
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            const modalButtons = document.getElementById('modalButtons');
+            modalButtons.innerHTML = ''; // Clear previous buttons
+
+            if (type === 'alert') {
+                const okButton = document.createElement('button');
+                okButton.className = 'action-btn bg-indigo-600 hover:bg-indigo-700';
+                okButton.innerText = 'OK';
+                okButton.onclick = () => modal.classList.add('hidden');
+                modalButtons.appendChild(okButton);
+            } else if (type === 'confirm') {
+                const confirmButton = document.createElement('button');
+                confirmButton.className = 'action-btn bg-red-600 hover:bg-red-700';
+                confirmButton.innerText = 'Yes';
+                confirmButton.onclick = () => {
+                    modal.classList.add('hidden');
+                    if (onConfirm) onConfirm(true);
+                };
+                const cancelButton = document.createElement('button');
+                cancelButton.className = 'action-btn bg-gray-400 hover:bg-gray-500';
+                cancelButton.innerText = 'Cancel';
+                cancelButton.onclick = () => {
+                    modal.classList.add('hidden');
+                    if (onConfirm) onConfirm(false);
+                };
+                modalButtons.appendChild(confirmButton);
+                modalButtons.appendChild(cancelButton);
+            }
+            modal.classList.remove('hidden');
+        }
+
+
+        // Function to switch between pages
+        function showPage(pageName, data = null) {
+            document.getElementById('loginPage').classList.add('hidden-page');
+            document.getElementById('adminPage').classList.add('hidden-page');
+            document.getElementById('matchPage').classList.add('hidden-page');
+
+            if (pageName === 'login') {
+                document.getElementById('loginPage').classList.remove('hidden-page');
+            } else if (pageName === 'admin') {
+                document.getElementById('adminPage').classList.remove('hidden-page');
+                // Refresh data on admin page view
+                showAdminPlayers();
+                showLeaderboard();
+                showMatches();
+            } else if (pageName === 'match') {
+                document.getElementById('matchPage').classList.remove('hidden-page');
+                currentMatchId = data; // data here is the matchId
+                const match = matches.find(m => m.id === currentMatchId);
+                if (match) {
+                    document.getElementById('matchTitle').innerText = `Match: ${match.name}`;
+                    showMatchPlayers();
+                } else {
+                    showCustomModal('Error', 'Match not found!');
+                    showPage('admin');
+                }
+            }
+        }
+
+        // --- AUTHENTICATION ---
+        function login() {
+            const password = document.getElementById('password').value;
+            if (password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('isAdmin', 'true');
+                showPage('admin'); // Redirect to admin page on successful login
+                document.getElementById('password').value = '';
+                document.getElementById('loginError').innerText = '';
+            } else {
+                document.getElementById('loginError').innerText = 'Wrong Password!';
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('isAdmin');
+            showPage('login');
+        }
+
+        // --- DATA HELPERS ---
+        function getNow() {
+            const d = new Date();
+            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+        }
+
+        function loadData() {
+            players = JSON.parse(localStorage.getItem('players')) || [];
+            matches = JSON.parse(localStorage.getItem('matches')) || [];
+        }
+
+        function saveData() {
+            localStorage.setItem('players', JSON.stringify(players));
+            localStorage.setItem('matches', JSON.stringify(matches));
+        }
+
+        // --- ADMIN PAGE: PLAYER MANAGEMENT ---
+        function savePlayer() {
+            const editIndex = document.getElementById('editIndex').value;
+            const player = {
+                name: document.getElementById('name').value.trim(),
+                playerId: document.getElementById('playerId').value.trim(),
+                mobile: document.getElementById('mobile').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                gameUid: document.getElementById('gameUid').value.trim(),
+                teamName: document.getElementById('teamName').value.trim(),
+                matchesJoined: parseInt(document.getElementById('matchesJoined').value) || 0,
+                kills: parseInt(document.getElementById('kills').value) || 0,
+                wins: parseInt(document.getElementById('wins').value) || 0,
+            };
+
+            // Basic validation
+            if (!player.name || !player.playerId || !player.mobile || !player.gameUid) {
+                showCustomModal('Input Error', 'Please fill in Name, Player ID, Mobile, and Game UID.');
+                return;
+            }
+
+            if (editIndex === '') {
+                player.createdAt = getNow();
+                players.push(player);
+            } else {
+                player.createdAt = players[editIndex].createdAt; // Preserve original creation date
+                players[editIndex] = player;
+            }
+
+            saveData();
+            clearPlayerForm();
+            showAdminPlayers();
+            showLeaderboard();
+            showCustomModal('Success', 'Player saved successfully!');
+        }
+
+        function clearPlayerForm() {
+            document.getElementById('editIndex').value = '';
+            document.getElementById('name').value = '';
+            document.getElementById('playerId').value = '';
+            document.getElementById('mobile').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('gameUid').value = '';
+            document.getElementById('teamName').value = '';
+            document.getElementById('matchesJoined').value = '';
+            document.getElementById('kills').value = '';
+            document.getElementById('wins').value = '';
+        }
+
+        function showAdminPlayers() {
+            const tbody = document.querySelector('#playersTable tbody');
+            tbody.innerHTML = '';
+            players.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${player.name}</td><td>${player.playerId}</td><td>${player.mobile}</td><td>${player.email}</td>
+                    <td>${player.gameUid}</td><td>${player.teamName}</td><td>${player.matchesJoined}</td>
+                    <td>${player.kills}</td><td>${player.wins}</td><td>${player.createdAt || ''}</td>
+                    <td>
+                        <button class="table-btn edit-btn" onclick="editPlayer(${index})">Edit</button>
+                        <button class="table-btn delete-btn" onclick="deletePlayer(${index})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function editPlayer(index) {
+            const p = players[index];
+            document.getElementById('editIndex').value = index;
+            document.getElementById('name').value = p.name;
+            document.getElementById('playerId').value = p.playerId;
+            document.getElementById('mobile').value = p.mobile;
+            document.getElementById('email').value = p.email;
+            document.getElementById('gameUid').value = p.gameUid;
+            document.getElementById('teamName').value = p.teamName;
+            document.getElementById('matchesJoined').value = p.matchesJoined;
+            document.getElementById('kills').value = p.kills;
+            document.getElementById('wins').value = p.wins;
+            window.scrollTo(0, 0); // Scroll to top to see the form
+        }
+
+        function deletePlayer(index) {
+            showCustomModal('Confirm Deletion', 'Are you sure you want to delete this player?', 'confirm', (confirmed) => {
+                if (confirmed) {
+                    players.splice(index, 1);
+                    saveData();
+                    showAdminPlayers();
+                    showLeaderboard();
+                    showCustomModal('Deleted', 'Player deleted successfully.');
+                }
+            });
+        }
+
+        // --- ADMIN PAGE: LEADERBOARD ---
+        function showLeaderboard() {
+            const leaderboardBody = document.getElementById('leaderboardBody');
+            leaderboardBody.innerHTML = '';
+            const playersWithPoints = players.map(p => ({
+                ...p,
+                points: (parseInt(p.kills) || 0) * 10 + (parseInt(p.wins) || 0) * 50 // Kills give 10 points, Wins give 50 points
+            }));
+            const sortedPlayers = [...playersWithPoints].sort((a, b) => b.points - a.points);
+
+            sortedPlayers.forEach((player, index) => {
+                let medal = '';
+                if (index === 0) medal = '??';
+                else if (index === 1) medal = '??';
+                else if (index === 2) medal = '??';
+                else medal = (index + 1).toString(); // Display rank number for others
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="medal">${medal}</td>
+                    <td>${player.name}</td>
+                    <td>${player.teamName}</td>
+                    <td class="text-center">${player.matchesJoined}</td>
+                    <td class="text-center">${player.kills}</td>
+                    <td class="text-center">${player.wins}</td>
+                    <td class="text-center font-bold text-indigo-700">${player.points}</td>
+                    <td>${player.createdAt || ''}</td>
+                `;
+                leaderboardBody.appendChild(row);
+            });
+        }
+
+        // --- ADMIN PAGE: MATCH MANAGEMENT ---
+        function addMatch() {
+            const name = document.getElementById('matchName').value.trim();
+            const scheduled = document.getElementById('scheduledDate').value.trim();
+            if (!name || !scheduled) {
+                showCustomModal('Input Error', 'Please enter both Match Name and Scheduled Date/Time!');
+                return;
+            }
+            matches.push({ id: Date.now().toString(), name, scheduledFor: scheduled, createdAt: getNow(), players: [] });
+            saveData();
+            document.getElementById('matchName').value = '';
+            document.getElementById('scheduledDate').value = '';
+            showMatches();
+            showCustomModal('Success', 'Match added successfully!');
+        }
+
+        function deleteMatch(index) {
+            showCustomModal('Confirm Deletion', 'Are you sure you want to delete this match?', 'confirm', (confirmed) => {
+                if (confirmed) {
+                    matches.splice(index, 1);
+                    saveData();
+                    showMatches();
+                    showCustomModal('Deleted', 'Match deleted successfully.');
+                }
+            });
+        }
+
+        function showMatches() {
+            const tbody = document.querySelector('#matchesTable tbody');
+            tbody.innerHTML = '';
+            matches.forEach((match, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${match.name}</td>
+                    <td>${match.createdAt || ''}</td>
+                    <td>${match.scheduledFor || ''}</td>
+                    <td class="text-center">${match.players.length}</td>
+                    <td>
+                        <button class="table-btn match-btn" onclick="showPage('match', '${match.id}')">View Players</button>
+                        <button class="table-btn delete-btn" onclick="deleteMatch(${index})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // --- MATCH DETAILS PAGE ---
+        function showMatchPlayers() {
+            const match = matches.find(m => m.id === currentMatchId);
+            if (!match) return;
+
+            const tbody = document.querySelector('#matchPlayersTable tbody');
+            tbody.innerHTML = '';
+            match.players.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${player.name}</td>
+                    <td>${player.gameUid}</td>
+                    <td>${player.mobile}</td>
+                    <td>${player.gameName}</td>
+                    <td class="text-center">${player.kills}</td>
+                    <td><button class="table-btn delete-btn" onclick="deletePlayerFromMatch(${index})">Remove</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function addPlayerToMatch() {
+            const match = matches.find(m => m.id === currentMatchId);
+            if (!match) return;
+
+            const name = document.getElementById('matchPlayerName').value.trim();
+            const gameUid = document.getElementById('matchGameUid').value.trim();
+            const mobile = document.getElementById('matchMobile').value.trim();
+            const gameName = document.getElementById('matchGameName').value.trim();
+            const kills = document.getElementById('matchKills').value.trim();
+
+            if (!name || !gameUid || !mobile || !gameName || kills === '') {
+                showCustomModal('Input Error', 'Please fill all fields for the player!');
+                return;
+            }
+
+            match.players.push({ name, gameUid, mobile, gameName, kills: parseInt(kills) || 0 });
+            saveData();
+            clearMatchPlayerForm();
+            showMatchPlayers();
+            showCustomModal('Success', 'Player added to match successfully!');
+        }
+
+        function deletePlayerFromMatch(index) {
+            const match = matches.find(m => m.id === currentMatchId);
+            if (!match) return;
+
+            showCustomModal('Confirm Removal', 'Are you sure you want to remove this player from the match?', 'confirm', (confirmed) => {
+                if (confirmed) {
+                    match.players.splice(index, 1);
+                    saveData();
+                    showMatchPlayers();
+                    showCustomModal('Removed', 'Player removed from match.');
+                }
+            });
+        }
+
+        function clearMatchPlayerForm() {
+            document.getElementById('matchPlayerName').value = '';
+            document.getElementById('matchGameUid').value = '';
+            document.getElementById('matchMobile').value = '';
+            document.getElementById('matchGameName').value = '';
+            document.getElementById('matchKills').value = '';
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            loadData();
+            if (sessionStorage.getItem('isAdmin') === 'true') {
+                showPage('admin');
+            } else {
+                showPage('login');
+            }
+        };
+    </script>
+</body>
+</html>
